@@ -7,6 +7,7 @@ class User(BaseModel):
     email : EmailStr
     role : str
     firstname : str
+    timezone_name : str
 
     class Config:
         orm_mode = True
@@ -14,6 +15,7 @@ class User(BaseModel):
 class CreateUser(User):
     password : str
     referer_secret : str
+    reactivate : bool = False
 
 
 class UserSuccess(BaseModel):

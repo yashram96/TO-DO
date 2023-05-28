@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
+from fastapi import status, HTTPException, Depends, APIRouter
 
 from fastapi_paseto_auth import AuthPASETO
 
 from sqlalchemy.orm import Session 
 from app.connectdb import engine, get_db
-from .. import models , request_schemas as schema, utils, oauth2
+from app.models.user import Users
+from .. import request_schemas as schema, utils, oauth2
 
 
 
@@ -17,7 +18,7 @@ router = APIRouter(
 @router.post('/login',status_code= status.HTTP_201_CREATED)
 async def user_login(credentials :schema.UserLogin, Authorize: AuthPASETO = Depends() ,db: Session = Depends(get_db) ):
 
-    user = db.query(models.Users).filter(models.Users.username == credentials.username).first()
+    user = db.query(Users).filter(Users.username == credentials.username).first()
     if not user: 
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND , detail= {'status' : 'Failed' , 'data' : [{}] , 'message':f'Invalid username' })
 

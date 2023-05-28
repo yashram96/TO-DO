@@ -3,13 +3,12 @@ from fastapi import FastAPI,Request
 from fastapi_paseto_auth import AuthPASETO
 from fastapi_paseto_auth.exceptions import AuthPASETOException
 from fastapi.responses import JSONResponse
-from . import models, request_schemas as schema
+
+from . import request_schemas as schema
 from .routes import auth,users
 from app.connectdb import engine
 
 app = FastAPI()
-
-models.Base.metadata.create_all(bind=engine)
 
 @AuthPASETO.load_config
 def get_config():
